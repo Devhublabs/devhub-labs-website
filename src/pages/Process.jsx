@@ -5,13 +5,24 @@ import {
   PageHero,
   Timeline,
 } from "@/components/pages";
+import Seo from "@/components/seo/Seo.jsx";
 import Container from "@/components/ui/Container.jsx";
 import SectionHeading from "@/components/ui/SectionHeading.jsx";
 import { processSteps } from "@/data/process.js";
+import { ROUTE_PATHS } from "@/routes/paths.js";
 
 export default function Process() {
   return (
     <PageContainer>
+      <Seo
+        title="Our Process"
+        description="DevHub Labs' engineering process—from discovery and planning through design, development, testing, deployment, and ongoing support."
+        path={ROUTE_PATHS.process}
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Process", path: ROUTE_PATHS.process },
+        ]}
+      />
       <PageHero
         eyebrow="How We Work"
         title="Our Process"

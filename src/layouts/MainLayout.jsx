@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Outlet, useLocation } from "react-router-dom";
 import ScrollToTop from "@/components/common/ScrollToTop.jsx";
+import Footer from "@/components/layout/Footer.jsx";
 import Navbar from "@/components/layout/Navbar.jsx";
 import { pageFadeIn } from "@/animations/pageTransitions.js";
 
@@ -33,12 +34,7 @@ export default function MainLayout() {
         </AnimatePresence>
       </main>
 
-      <footer className="border-t border-[var(--color-border)] bg-[var(--color-surface)]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-6 text-sm text-[var(--color-text-secondary)] md:flex-row md:items-center md:justify-between">
-          <p>&copy; {new Date().getFullYear()} DevHub Labs.</p>
-          <p>Software strategy, design, and engineering.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

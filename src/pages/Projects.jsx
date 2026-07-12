@@ -7,13 +7,24 @@ import {
   PageHero,
   ProjectCard,
 } from "@/components/pages";
+import Seo from "@/components/seo/Seo.jsx";
 import Container from "@/components/ui/Container.jsx";
 import SectionHeading from "@/components/ui/SectionHeading.jsx";
 import { projects } from "@/data/projects.js";
+import { ROUTE_PATHS } from "@/routes/paths.js";
 
 export default function Projects() {
   return (
     <PageContainer>
+      <Seo
+        title="Projects"
+        description="Selected work from DevHub Labs—digital products engineered with attention to performance, design, and long-term value."
+        path={ROUTE_PATHS.projects}
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Projects", path: ROUTE_PATHS.projects },
+        ]}
+      />
       <PageHero
         eyebrow="Our Work"
         title="Projects"

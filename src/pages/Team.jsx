@@ -7,13 +7,24 @@ import {
   PageHero,
   TeamCard,
 } from "@/components/pages";
+import Seo from "@/components/seo/Seo.jsx";
 import Container from "@/components/ui/Container.jsx";
 import SectionHeading from "@/components/ui/SectionHeading.jsx";
 import { teamIntro, teamMembers } from "@/data/team.js";
+import { ROUTE_PATHS } from "@/routes/paths.js";
 
 export default function Team() {
   return (
     <PageContainer>
+      <Seo
+        title="Team"
+        description="Meet the DevHub Labs team—developers, designers, and problem-solvers who turn ambitious ideas into reliable, polished software."
+        path={ROUTE_PATHS.team}
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Team", path: ROUTE_PATHS.team },
+        ]}
+      />
       <PageHero
         eyebrow={teamIntro.eyebrow}
         title={teamIntro.title}

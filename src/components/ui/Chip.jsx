@@ -12,7 +12,7 @@ export default function Chip({
   return (
     <Component
       className={cn(
-        "inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm font-medium text-[var(--color-text-secondary)] shadow-sm",
+        "chip-badge inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm font-medium text-[var(--color-text-secondary)] shadow-sm transition-[transform,color,border-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:shadow-[var(--shadow-hover-glow)]",
         className,
       )}
       {...props}

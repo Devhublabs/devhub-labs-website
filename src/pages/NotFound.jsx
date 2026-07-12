@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
+import Seo from "@/components/seo/Seo.jsx";
 import PagePlaceholder from "@/components/ui/PagePlaceholder.jsx";
 
 export default function NotFound() {
   return (
     <>
+      <Seo
+        title="Page Not Found"
+        description="The page you're looking for doesn't exist. Return to the DevHub Labs homepage."
+        noindex
+      />
       <PagePlaceholder title="Page not found" />
       <div className="mx-auto -mt-16 w-full max-w-7xl px-6 pb-16">
         <Link

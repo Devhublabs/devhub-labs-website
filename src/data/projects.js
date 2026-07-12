@@ -1,3 +1,6 @@
+import echoSchoolImage from "@/assets/projects/echo-school-website.png";
+import emmanuelsFoodImage from "@/assets/projects/emmanuels-food-website.png";
+
 export const projects = [
   {
     id: "echo-school-website",
@@ -6,7 +9,7 @@ export const projects = [
     category: "Education",
     summary:
       "A modern school website with structured information architecture, responsive design, and optimized performance for easy content accessibility.",
-    image: null,
+    image: echoSchoolImage,
     highlights: [
       "Responsive UI",
       "Structured Information Architecture",
@@ -33,7 +36,7 @@ export const projects = [
     summary:
       "An online food ordering platform with intuitive product browsing, fast performance, and user-friendly navigation.",
     url: "https://crave-restaurant-website.vercel.app",
-    image: null,
+    image: emmanuelsFoodImage,
     highlights: [
       "Responsive Layout",
       "Product Browsing",

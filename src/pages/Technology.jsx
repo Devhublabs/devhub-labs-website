@@ -8,14 +8,25 @@ import {
   PageHero,
   TechnologyBadge,
 } from "@/components/pages";
+import Seo from "@/components/seo/Seo.jsx";
 import Chip from "@/components/ui/Chip.jsx";
 import Container from "@/components/ui/Container.jsx";
 import SectionHeading from "@/components/ui/SectionHeading.jsx";
 import { engineeringPractices, technologyGroups } from "@/data/technologies.js";
+import { ROUTE_PATHS } from "@/routes/paths.js";
 
 export default function Technology() {
   return (
     <PageContainer>
+      <Seo
+        title="Technology"
+        description="The modern tools, proven practices, and emerging technologies DevHub Labs uses—React, Node.js, Python, AI APIs, and more, chosen per project."
+        path={ROUTE_PATHS.technology}
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Technology", path: ROUTE_PATHS.technology },
+        ]}
+      />
       <PageHero
         eyebrow="Our Stack"
         title="Technology"

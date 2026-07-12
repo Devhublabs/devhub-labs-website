@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://devhub-labs-website.vercel.app/sitemap.xml

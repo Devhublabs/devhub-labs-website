@@ -15,6 +15,7 @@ import {
   SectionTitle,
   ValueCard,
 } from "@/components/pages";
+import Seo from "@/components/seo/Seo.jsx";
 import Chip from "@/components/ui/Chip.jsx";
 import Container from "@/components/ui/Container.jsx";
 import SectionHeading from "@/components/ui/SectionHeading.jsx";
@@ -26,6 +27,7 @@ import {
   vision,
   whyDevHub,
 } from "@/data/about.js";
+import { ROUTE_PATHS } from "@/routes/paths.js";
 
 const valueIcons = {
   quality: Award,
@@ -37,6 +39,15 @@ const valueIcons = {
 export default function About() {
   return (
     <PageContainer>
+      <Seo
+        title="About"
+        description="DevHub Labs builds software that creates real value—guided by clean architecture, thoughtful design, and long-term thinking. Learn about our mission and values."
+        path={ROUTE_PATHS.about}
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "About", path: ROUTE_PATHS.about },
+        ]}
+      />
       <PageHero
         eyebrow={aboutIntro.eyebrow}
         title={aboutIntro.title}

@@ -1,10 +1,11 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Braces, Cpu, Layers3, Sparkles } from "lucide-react";
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Canvas3DBoundary from "@/components/three/Canvas3DBoundary.jsx";
+import HeroLogoPlaceholder from "@/components/three/HeroLogoPlaceholder.jsx";
+import Magnetic from "@/components/ui/Magnetic.jsx";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver.js";
-import logoFallback from "@/assets/logos/3D render.png";
 import { hasCompletedHeroIntro, markHeroIntroComplete } from "@/utils/introSession.js";
 
 const HeroLogoCanvas = lazy(() => import("@/components/three/HeroLogoCanvas.jsx"));
@@ -124,8 +125,18 @@ function HeroBackground({ playIntro }) {
 }
 
 function LogoShowcase() {
-  const { ref, isIntersecting } = useIntersectionObserver({ threshold: 0.15 });
+  // Mount the canvas slightly before it scrolls into view, then keep it
+  // mounted so we never re-pay the WebGL init cost on the home hero.
+  const { ref, isIntersecting } = useIntersectionObserver({
+    threshold: 0.15,
+    rootMargin: "300px",
+  });
   const [webglFailed, setWebglFailed] = useState(false);
+  const [modelReady, setModelReady] = useState(false);
+
+  const handleReady = useCallback(() => setModelReady(true), []);
+  const show3D = isIntersecting && !webglFailed;
+  const revealCanvas = show3D && modelReady;
 
   return (
     <div
@@ -135,40 +146,34 @@ function LogoShowcase() {
       <div className="logo-glow absolute bottom-[8%] left-1/2 h-40 w-[70%] -translate-x-1/2 blur-3xl" />
 
       <div className="pointer-events-none absolute inset-0">
-        {webglFailed || !isIntersecting ? (
-          <img
-            src={logoFallback}
-            alt="DevHub Labs logo"
-            className="hero-render absolute inset-0 size-full object-contain"
-            loading="lazy"
-            decoding="async"
-          />
-        ) : (
-          <Suspense
-            fallback={
-              <img
-                src={logoFallback}
-                alt="DevHub Labs logo"
-                className="hero-render absolute inset-0 size-full object-contain"
-                decoding="async"
-              />
-            }
+        {/* Premium loading experience — stays beneath the canvas and
+            cross-fades out once the GLB has rendered its first frame. */}
+        <motion.div
+          className="absolute inset-0"
+          initial={false}
+          animate={{ opacity: revealCanvas ? 0 : 1 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <HeroLogoPlaceholder />
+        </motion.div>
+
+        {show3D ? (
+          <motion.div
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: revealCanvas ? 1 : 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Canvas3DBoundary
-              fallback={
-                <img
-                  src={logoFallback}
-                  alt="DevHub Labs logo"
-                  className="hero-render absolute inset-0 size-full object-contain"
-                  decoding="async"
-                />
-              }
-              onError={() => setWebglFailed(true)}
-            >
-              <HeroLogoCanvas active={isIntersecting} />
-            </Canvas3DBoundary>
-          </Suspense>
-        )}
+            <Suspense fallback={null}>
+              <Canvas3DBoundary
+                fallback={null}
+                onError={() => setWebglFailed(true)}
+              >
+                <HeroLogoCanvas active={isIntersecting} onReady={handleReady} />
+              </Canvas3DBoundary>
+            </Suspense>
+          </motion.div>
+        ) : null}
       </div>
     </div>
   );
@@ -297,16 +302,18 @@ export default function HomeHero() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            <Link
-              to="/contact"
-              className="btn-cta-primary group inline-flex h-14 items-center justify-center gap-3 rounded-lg px-7 text-sm font-bold transition-[transform,box-shadow] duration-[400ms] hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"
-            >
-              {"Let's Build Together"}
-              <ArrowRight
-                aria-hidden="true"
-                className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </Link>
+            <Magnetic className="inline-block">
+              <Link
+                to="/contact"
+                className="btn-cta-primary group inline-flex h-14 w-full items-center justify-center gap-3 rounded-lg px-7 text-sm font-bold transition-[transform,box-shadow] duration-[400ms] hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)] sm:w-auto"
+              >
+                {"Let's Build Together"}
+                <ArrowRight
+                  aria-hidden="true"
+                  className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                />
+              </Link>
+            </Magnetic>
             <Link
               to="/projects"
               className="btn-cta-secondary inline-flex h-14 items-center justify-center gap-3 rounded-lg px-7 text-sm font-bold transition-[background-color,transform,box-shadow] duration-[400ms] hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-primary)]"

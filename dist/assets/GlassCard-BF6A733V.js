@@ -1,1 +1,0 @@
-import{j as m,b as n}from"./index-CVCQWpNW.js";import{C as e}from"./PageHero-C0VoIo59.js";function f({interactive:s=!1,padding:a="lg",className:r,children:t,...o}){return m.jsx(e,{variant:"glass",padding:a,interactive:s,className:n(r),...o,children:t})}export{f as G};

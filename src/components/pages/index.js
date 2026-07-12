@@ -1,4 +1,5 @@
 export { default as AnimatedSection } from "@/components/pages/AnimatedSection.jsx";
+export { default as ContactForm } from "@/components/pages/ContactForm.jsx";
 export { default as CTASection } from "@/components/pages/CTASection.jsx";
 export { default as FeatureGrid, FeatureGridItem } from "@/components/pages/FeatureGrid.jsx";
 export { default as GlassCard } from "@/components/pages/GlassCard.jsx";

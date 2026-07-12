@@ -1,0 +1,24 @@
+{
+  "name": "DevHub Labs",
+  "short_name": "DevHub Labs",
+  "description": "DevHub Labs builds scalable, premium software products for modern businesses.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0c0a12",
+  "theme_color": "#6d3ff2",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

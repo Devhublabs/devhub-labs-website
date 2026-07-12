@@ -9,7 +9,7 @@ import logoModel from "@/assets/logos/3D render.glb";
 
 useGLTF.preload(logoModel);
 
-const LogoModel = memo(function LogoModel({ reducedMotion, active }) {
+const LogoModel = memo(function LogoModel({ reducedMotion, active, onReady }) {
   const { scene, animations } = useGLTF(logoModel);
   const groupRef = useRef(null);
   const { actions } = useAnimations(animations, groupRef);
@@ -47,6 +47,12 @@ const LogoModel = memo(function LogoModel({ reducedMotion, active }) {
 
     return wrapper;
   }, [scene]);
+
+  useEffect(() => {
+    // Model geometry is resolved once `prepared` is computed; signal the
+    // parent on the next frame so the placeholder can cross-fade out.
+    onReady?.();
+  }, [onReady, prepared]);
 
   useEffect(() => {
     const actionName = Object.keys(actions)[0];
@@ -89,7 +95,7 @@ const LogoModel = memo(function LogoModel({ reducedMotion, active }) {
   );
 });
 
-function HeroLogoCanvas({ active = true }) {
+function HeroLogoCanvas({ active = true, onReady }) {
   const reducedMotion = useReducedMotion();
   const shouldAnimate = active && !reducedMotion;
 
@@ -106,7 +112,7 @@ function HeroLogoCanvas({ active = true }) {
       <directionalLight position={[-4, -1, -2]} intensity={0.45} color="#b98cff" />
 
       <Suspense fallback={null}>
-        <LogoModel reducedMotion={reducedMotion} active={active} />
+        <LogoModel reducedMotion={reducedMotion} active={active} onReady={onReady} />
         <Environment resolution={128}>
           <Lightformer
             intensity={2}
