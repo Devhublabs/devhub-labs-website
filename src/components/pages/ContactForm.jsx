@@ -4,6 +4,8 @@ import { useId, useState } from "react";
 
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 const ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_KEY;
+const CONTACT_FALLBACK_MESSAGE =
+  "The contact form is currently unavailable. Please reach out to us on WhatsApp or call us directly.";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -90,47 +92,9 @@ export default function ContactForm() {
       return;
     }
 
-    if (!ACCESS_KEY) {
-      setStatus("error");
-      setStatusMessage(
-        "The contact form isn't configured yet. Please email us directly and we'll respond right away.",
-      );
-      return;
-    }
-
-    setStatus("submitting");
-    setStatusMessage("");
-
-    try {
-      const response = await fetch(WEB3FORMS_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          access_key: ACCESS_KEY,
-          name: values.name.trim(),
-          email: values.email.trim(),
-          subject: values.subject.trim() || `New inquiry from ${values.name.trim()}`,
-          message: values.message.trim(),
-          from_name: "DevHub Labs Website",
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        setStatus("success");
-        setStatusMessage("Thanks for reaching out! We'll get back to you shortly.");
-        setValues(initialValues);
-        setErrors({});
-      } else {
-        throw new Error(data.message || "Submission failed");
-      }
-    } catch {
-      setStatus("error");
-      setStatusMessage(
-        "Something went wrong sending your message. Please try again, or email us directly.",
-      );
-    }
+    setStatus("error");
+    setStatusMessage(CONTACT_FALLBACK_MESSAGE);
+    return;
   }
 
   const nameId = `${baseId}-name`;
