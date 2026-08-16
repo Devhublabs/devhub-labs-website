@@ -20,7 +20,7 @@ export const company = {
   )}`,
   location: "Nigeria",
   social: {
-    github: "https://github.com/devhub-labs",
+    github: "https://github.com/Devhublabs",
     // LinkedIn / X placeholders — fill in when the profiles go live.
     linkedin: "",
     x: "",

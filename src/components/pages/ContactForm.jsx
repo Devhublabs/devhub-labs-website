@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { AlertCircle, CheckCircle2, Loader2, MessageSquare, Send } from "lucide-react";
 import { useId, useState } from "react";
+import { company } from "@/data/company.js";
 
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 const ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_KEY;
@@ -92,9 +93,51 @@ export default function ContactForm() {
       return;
     }
 
-    setStatus("error");
-    setStatusMessage(CONTACT_FALLBACK_MESSAGE);
-    return;
+    if (!ACCESS_KEY) {
+      setStatus("error");
+      setStatusMessage(CONTACT_FALLBACK_MESSAGE);
+      return;
+    }
+
+    setStatus("submitting");
+    setStatusMessage("");
+
+    try {
+      const response = await fetch(WEB3FORMS_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: ACCESS_KEY,
+          name: values.name.trim(),
+          email: values.email.trim(),
+          subject:
+            values.subject.trim() ||
+            `New contact form message — ${company.name}`,
+          message: values.message.trim(),
+          from_name: company.name,
+          replyto: values.email.trim(),
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setStatus("success");
+        setStatusMessage("Thanks! Your message has been sent.");
+        setValues(initialValues);
+        setErrors({});
+        return;
+      }
+
+      setStatus("error");
+      setStatusMessage(result.message || CONTACT_FALLBACK_MESSAGE);
+    } catch {
+      setStatus("error");
+      setStatusMessage(CONTACT_FALLBACK_MESSAGE);
+    }
   }
 
   const nameId = `${baseId}-name`;
